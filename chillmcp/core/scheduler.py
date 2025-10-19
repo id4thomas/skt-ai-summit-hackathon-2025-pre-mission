@@ -67,5 +67,9 @@ async def start_background_tasks(state: OfficeState):
     Args:
         state: The OfficeState instance to monitor
     """
-    asyncio.create_task(stress_increase_loop(state))
-    asyncio.create_task(boss_alert_decrease_loop(state))
+    tasks = [
+        asyncio.create_task(stress_increase_loop(state)),
+        asyncio.create_task(boss_alert_decrease_loop(state))
+    ]
+    # Keep tasks alive by waiting indefinitely
+    await asyncio.gather(*tasks)

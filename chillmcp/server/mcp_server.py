@@ -16,17 +16,18 @@ from ..tools import (
 )
 
 
-def create_mcp_server(state: OfficeState) -> FastMCP:
+def create_mcp_server(state: OfficeState, lifespan=None) -> FastMCP:
     """
     Create and configure FastMCP server with all tools.
 
     Args:
         state: The OfficeState instance to use
+        lifespan: Optional lifespan context manager for background tasks
 
     Returns:
         Configured FastMCP server instance
     """
-    mcp = FastMCP("ChillMCP - Office Break Simulator")
+    mcp = FastMCP("ChillMCP - Office Break Simulator", lifespan=lifespan)
 
     # Initialize all tools
     tools = {

@@ -168,3 +168,6 @@ main.py, requirements.txt는 요구사항에 맞게 최상단 폴더로 뺴줘
 
 [가이드]
 간단한 사용 가이드를 USAGE.md 파일에 작성해줘. Claude Desktop에 MCP 연결한다고 가정해
+
+[패키지 업데이트]
+fastmcp version is too old. update to 2.12.5 ans test/edit accordingly

@@ -3,7 +3,10 @@
     "allow": [
       "Bash(python3:*)",
       "Bash(pip3 install:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(source venv/bin/activate)",
+      "Bash(pip install:*)",
+      "Bash(timeout 5 python3:*)"
     ],
     "deny": [],
     "ask": []

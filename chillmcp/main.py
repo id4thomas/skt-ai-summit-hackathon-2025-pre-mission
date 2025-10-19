@@ -6,9 +6,32 @@ Main entry point for the MCP server.
 """
 
 import asyncio
+from contextlib import asynccontextmanager
 from .cli import parse_args
 from .core import OfficeState, start_background_tasks
 from .server import create_mcp_server
+
+
+@asynccontextmanager
+async def lifespan(state: OfficeState):
+    """
+    Lifespan context manager for background tasks.
+
+    Args:
+        state: The OfficeState instance
+    """
+    # Start background tasks
+    task = asyncio.create_task(start_background_tasks(state))
+
+    try:
+        yield state
+    finally:
+        # Cancel background tasks on shutdown
+        task.cancel()
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
 
 
 def main():
@@ -22,15 +45,8 @@ def main():
         boss_alertness_cooldown=args.boss_alertness_cooldown
     )
 
-    # Create MCP server
-    mcp = create_mcp_server(state)
-
-    # Create event loop and start background tasks
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-
-    # Schedule background monitoring tasks
-    loop.create_task(start_background_tasks(state))
+    # Create MCP server with lifespan
+    mcp = create_mcp_server(state, lambda _: lifespan(state))
 
     # Run the MCP server (stdio communication)
     mcp.run()
