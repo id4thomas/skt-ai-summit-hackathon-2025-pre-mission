@@ -1,0 +1,45 @@
+[지시]
+코드 구조를 아래와 유사하게 (동일하게 아니어도 됨) 잘 분리된 구조로 가져가고 싶어
+```
+[구조]
+chillmcp/
+├─ main.py                  # 진입점: CLI 파싱 → 서버 부팅, argparse 및 기본값/검증
+├─ requirements.txt
+├─ README.md
+├─ docs/
+│  ├─ SPEC.md               # 설계/명세 요약
+│  └─ API.md                # 도구 I/O, 상태 머신 상세
+├─ server/
+│  └─ mcp_server.py         # FastMCP/stdio 서버 어댑터
+├─ core/
+│  ├─ config.py             # 기본값(BOSS_ALERTNESS, COOLDOWN 등)
+│  ├─ state.py              # 상태모델(Stress 0~100, Boss 0~5)
+│  ├─ scheduler.py          # stress auto-tick, boss cooldown, 20s 경고 지연
+│  ├─ events.py             # 경고 이벤트 Pub/Sub
+│  ├─ validators.py         # Regex/응답 포맷 빌더
+│  └─ utils.py              # clamp(), rand(), now() 등
+├─ tools/
+│  ├─ base.py               # BaseTool, 공통 응답 빌더
+│  ├─ basic/
+│  │  ├─ take_a_break.py
+│  │  ├─ watch_netflix.py
+│  │  └─ show_meme.py
+│  └─ advanced/
+│     ├─ bathroom_break.py
+│     ├─ coffee_mission.py
+│     ├─ urgent_call.py
+│     ├─ deep_thinking.py
+│     └─ email_organizing.py
+└─ tests/
+   ├─ test_cli_params.py
+   ├─ test_cooldown.py
+   ├─ test_state_progress.py
+   ├─ test_multi_breaks.py
+   └─ test_response_format.py
+```
+
+구현하고 문서는 docs/ 폴더 아래에 넣고
+- USAGE.md: Claude Desktop 기준 사용 방법 (커맨드로 사용할만한 프롬프트 기능마다 전부 다)
+- IMPLEMENTATION.md: 구현 내용을 여기에 정리해
+
+README.md 에는 docs 문서들을 markdown 테이블로 연결시켜줘

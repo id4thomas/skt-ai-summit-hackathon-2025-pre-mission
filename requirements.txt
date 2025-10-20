@@ -1,0 +1,8 @@
+# ChillMCP Server Requirements
+# Python 3.11+ recommended
+
+# FastMCP for MCP server implementation
+fastmcp>=0.1.0
+
+# MCP SDK
+mcp>=1.0.0
